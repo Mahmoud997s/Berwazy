@@ -1,0 +1,135 @@
+You are a Replit agent. Build a production-ready monorepo ecommerce “Poster Store” that replicates the UX patterns of a modern collection page (filters + sort + product grid + load more + cart drawer) using Next.js (App Router) + NestJS + PostgreSQL (Prisma). Do NOT copy any proprietary assets, images, or text from any existing website; use placeholder images and seed data.
+
+GOALS
+- Create a monorepo using pnpm workspaces:
+  - apps/web = Next.js (TypeScript, App Router)
+  - apps/api = NestJS (TypeScript)
+  - packages/shared = shared types + Zod schemas used by both
+- Must run on Replit with a single Run command:
+  - Start API + Web
+  - Run Prisma migrate + seed automatically if DB is empty
+- UI should be premium, modern, responsive:
+  - TailwindCSS + shadcn/ui
+  - Supports dark mode and mobile drawer filters
+- Data:
+  - PostgreSQL + Prisma
+  - Seed at least 80 products + 1 collection “football-posters”
+  - Each product has multiple images (placeholders), tags, rating, onSale flag
+  - Variants by material + size with different prices
+
+PAGES (Next.js)
+- / : simple home with links to collection
+- /collections/[slug] : main focus (filters, sort, load more)
+- /product/[slug] : product details + variant selection + add to cart
+- /search?q= : search results with load more
+- /checkout : placeholder checkout showing cart summary
+- /account : mock page (no real auth required)
+
+COLLECTION PAGE UX REQUIREMENTS
+- Title + description for the collection
+- Toolbar:
+  - left: Filters button (mobile opens drawer)
+  - right: Sort dropdown + results count
+- Filters (facets) must work:
+  - orientation: portrait | landscape
+  - color: red | blue | black | white | multi (example values)
+  - size: 21x30 | 30x42 | 50x70 | 70x100
+  - material: POSTER | CANVAS
+  - onSale: true/false
+- Facets must show counts next to options like “Red (12)”
+- Product grid:
+  - fixed image aspect ratio (3:4 recommended)
+  - hover subtle elevation
+  - sale badge when onSale
+  - title line-clamp
+  - rating + rating count
+  - price display (if onSale show old/new)
+  - chips for materials available (POSTER/CANVAS)
+- “Load more” button (cursor pagination) instead of classic pagination:
+  - show “You’re viewing 1–40 of 63 products”
+  - clicking loads next items from API
+- All filtering and sorting must be server-backed (API), not client-only.
+
+API (NestJS) — MUST IMPLEMENT
+Base URL: /v1
+1) GET /v1/collections/:slug
+Query params:
+  cursor, limit, sort, orientation, color, size, material, onSale
+Response:
+{
+  items: ProductCard[],
+  nextCursor: string | null,
+  total: number,
+  facets: {
+    orientation: { value: string, count: number }[],
+    color: { value: string, count: number }[],
+    size: { value: string, count: number }[],
+    material: { value: string, count: number }[],
+    onSale: { value: "true"|"false", count: number }[]
+  }
+}
+Sort options:
+- popular (rating desc, ratingCount desc)
+- newest (createdAt desc)
+- price_asc (minVariantPrice asc)
+- price_desc (minVariantPrice desc)
+
+2) GET /v1/products/:slug
+Return product details + images + variants:
+{
+  product: {...},
+  images: [...],
+  variants: [
+    { id, material, size, priceCents, sku, inStock }
+  ],
+  priceRange: { minCents, maxCents }
+}
+
+3) CART (session-based, no real payment)
+- GET /v1/cart
+- POST /v1/cart/items { variantId, qty }
+- PATCH /v1/cart/items/:id { qty }
+- DELETE /v1/cart/items/:id
+Cart should persist via cookie-based sessionId (signed/uuid).
+
+DATABASE (Prisma) — Implement these models (or equivalent)
+- Collection (id, slug, title, description)
+- Product (id, slug, title, description, orientation, color, ratingAvg, ratingCount, isSale, salePct, createdAt)
+- ProductImage (id, productId, url, alt, sort)
+- Variant (id, productId, material enum, size enum, priceCents, sku, inStock)
+- CollectionProduct (collectionId, productId)
+- Cart (id, sessionId, createdAt)
+- CartItem (id, cartId, variantId, qty, unitPriceCents)
+
+TECH REQUIREMENTS
+- TypeScript end-to-end
+- Zod validation for all query/body inputs; share schemas in packages/shared
+- Web uses fetch wrapper with caching; collections page should use SSR/ISR where sensible
+- Accessibility: dialogs/drawers have aria, focus management
+- Add basic SEO:
+  - metadata for collection/product pages
+  - OpenGraph tags
+  - canonical URLs
+
+DELIVERABLES
+- Working Replit project with:
+  - pnpm install works
+  - pnpm dev starts both apps
+  - database migration + seed
+  - /collections/football-posters works with full filtering + sorting + load more
+  - product page can select variant and add to cart
+  - cart drawer works (add/remove/update qty) and checkout page shows cart summary
+- Provide a clear README:
+  - env vars needed (DATABASE_URL, API_URL, NEXT_PUBLIC_API_URL, SESSION_SECRET)
+  - how to run in Replit
+  - how to regenerate seed
+
+IMPORTANT CONSTRAINTS
+- Do not scrape or copy the referenced site’s images/text/branding.
+- Use placeholder images under apps/web/public/placeholders and seed-generated titles/descriptions.
+
+NOW EXECUTE
+1) Scaffold the monorepo and configure pnpm workspaces.
+2) Build the NestJS API with Prisma schema + migrations + seed.
+3) Build the Next.js web UI implementing the specified UX.
+4) Ensure it all runs on Replit with one Run button.
