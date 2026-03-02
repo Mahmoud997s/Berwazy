@@ -74,7 +74,7 @@ export function Layout({ children }: { children: ReactNode }) {
           </nav>
           
           {/* Logo - Center */}
-          <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-xl md:text-2xl font-black tracking-tighter uppercase italic">
+          <Link href="/" className="absolute left-1/2 -translate-x-1/2 text-2xl md:text-3xl font-black tracking-tighter uppercase italic">
             ArtsyFartsy<span className="text-red-600">.</span>
           </Link>
           

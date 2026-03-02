@@ -38,39 +38,39 @@ export default function Collection() {
 
   return (
     <Layout>
-      <div className="bg-muted py-16 md:py-24 px-4">
-        <div className="container mx-auto text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-display font-bold">{title}</h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Discover our curated selection of stunning prints. Elevate your aesthetic with premium artwork tailored for your space.
+      <div className="bg-white pt-12 pb-8 px-4">
+        <div className="container mx-auto">
+          <h1 className="text-5xl md:text-7xl font-black italic uppercase tracking-tighter mb-4">{title}</h1>
+          <p className="text-gray-400 max-w-2xl text-[10px] font-black uppercase tracking-[0.2em]">
+            Premium fine art prints and football posters designed to elevate your environment.
           </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-between py-4 border-b border-border mb-8">
+        <div className="flex items-center justify-between py-6 mb-8 border-y border-gray-100">
           <button 
-            className="md:hidden flex items-center gap-2 font-medium border border-border px-4 py-2 rounded-md"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border border-black px-6 py-3 hover:bg-black hover:text-white transition-colors"
             onClick={() => setMobileFiltersOpen(!isMobileFiltersOpen)}
           >
-            <Filter className="w-4 h-4" /> Filters
+            <Filter className="w-3 h-3" /> Filters
           </button>
           
-          <div className="hidden md:block text-muted-foreground">
-            You're viewing {allItems.length} of {total} products
+          <div className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-gray-400">
+            {allItems.length} / {total} Products
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-muted-foreground">Sort by:</span>
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">Sort:</span>
             <select 
               value={filters.sort}
               onChange={(e) => updateFilter("sort", e.target.value)}
-              className="bg-transparent border-none font-medium cursor-pointer focus:ring-0 outline-none"
+              className="bg-transparent border-none text-[10px] font-bold uppercase tracking-widest cursor-pointer focus:ring-0 outline-none"
             >
               <option value="">Featured</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-              <option value="newest">Newest Arrivals</option>
+              <option value="price_asc">Price Low-High</option>
+              <option value="price_desc">Price High-Low</option>
+              <option value="newest">Newest</option>
             </select>
           </div>
         </div>
@@ -79,45 +79,55 @@ export default function Collection() {
           {/* Desktop Filters */}
           <aside className={`w-full md:w-64 shrink-0 ${isMobileFiltersOpen ? 'block' : 'hidden'} md:block space-y-8`}>
             <div>
-              <h3 className="font-semibold text-lg mb-4">Filters</h3>
+              <h3 className="text-xs font-black uppercase tracking-[0.2em] mb-8">Filters</h3>
               
-              <div className="space-y-6">
+              <div className="space-y-10">
                 {/* Orientation Filter */}
                 <div>
-                  <h4 className="font-medium mb-3">Orientation</h4>
-                  <div className="space-y-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-4">Orientation</h4>
+                  <div className="space-y-4">
                     {facets?.orientation?.map((f: any) => (
                       <label key={f.value} className="flex items-center gap-3 cursor-pointer group">
-                        <input 
-                          type="checkbox" 
-                          checked={filters.orientation === f.value}
-                          onChange={() => updateFilter("orientation", filters.orientation === f.value ? "" : f.value)}
-                          className="w-4 h-4 rounded border-border text-foreground focus:ring-foreground"
-                        />
-                        <span className="text-sm group-hover:text-primary transition-colors capitalize">{f.value}</span>
-                        <span className="text-xs text-muted-foreground ml-auto">({f.count})</span>
+                        <div className="relative flex items-center justify-center">
+                          <input 
+                            type="checkbox" 
+                            checked={filters.orientation === f.value}
+                            onChange={() => updateFilter("orientation", filters.orientation === f.value ? "" : f.value)}
+                            className="peer appearance-none w-4 h-4 border border-black rounded-none checked:bg-black transition-all cursor-pointer"
+                          />
+                          <svg className="absolute w-2 h-2 text-white pointer-events-none hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                            <path d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[10px] font-bold uppercase tracking-widest group-hover:text-red-600 transition-colors">{f.value}</span>
+                        <span className="text-[10px] font-bold text-gray-300 ml-auto">{f.count}</span>
                       </label>
-                    )) || <p className="text-sm text-muted-foreground">None available</p>}
+                    )) || <p className="text-[10px] font-bold uppercase tracking-widest text-gray-300">None</p>}
                   </div>
                 </div>
 
                 {/* Color Filter */}
                 <div>
-                  <h4 className="font-medium mb-3">Color</h4>
-                  <div className="space-y-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.2em] mb-4">Color</h4>
+                  <div className="space-y-4">
                     {facets?.color?.map((f: any) => (
                       <label key={f.value} className="flex items-center gap-3 cursor-pointer group">
-                        <input 
-                          type="checkbox" 
-                          checked={filters.color === f.value}
-                          onChange={() => updateFilter("color", filters.color === f.value ? "" : f.value)}
-                          className="w-4 h-4 rounded border-border text-foreground focus:ring-foreground"
-                        />
-                        <div className="w-3 h-3 rounded-full border border-border" style={{ backgroundColor: f.value }} />
-                        <span className="text-sm group-hover:text-primary transition-colors capitalize">{f.value}</span>
-                        <span className="text-xs text-muted-foreground ml-auto">({f.count})</span>
+                        <div className="relative flex items-center justify-center">
+                          <input 
+                            type="checkbox" 
+                            checked={filters.color === f.value}
+                            onChange={() => updateFilter("color", filters.color === f.value ? "" : f.value)}
+                            className="peer appearance-none w-4 h-4 border border-black rounded-none checked:bg-black transition-all cursor-pointer"
+                          />
+                          <svg className="absolute w-2 h-2 text-white pointer-events-none hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                            <path d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <div className="w-2 h-2 border border-gray-100 shrink-0" style={{ backgroundColor: f.value }} />
+                        <span className="text-[10px] font-bold uppercase tracking-widest group-hover:text-red-600 transition-colors">{f.value}</span>
+                        <span className="text-[10px] font-bold text-gray-300 ml-auto">{f.count}</span>
                       </label>
-                    )) || <p className="text-sm text-muted-foreground">None available</p>}
+                    )) || <p className="text-[10px] font-bold uppercase tracking-widest text-gray-300">None</p>}
                   </div>
                 </div>
               </div>
@@ -159,10 +169,10 @@ export default function Collection() {
                     <button
                       onClick={() => fetchNextPage()}
                       disabled={isFetchingNextPage}
-                      className="btn-premium px-8 py-3"
+                      className="border border-black px-12 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all"
                     >
                       {isFetchingNextPage ? (
-                        <span className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Loading...</span>
+                        <span className="flex items-center gap-2"><Loader2 className="w-3 h-3 animate-spin" /> Loading...</span>
                       ) : (
                         "Load More"
                       )}
