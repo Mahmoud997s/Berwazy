@@ -17,7 +17,11 @@ export type DrizzleDB = NodePgDatabase<typeof schema>;
         if (!process.env.DATABASE_URL) {
           throw new Error("DATABASE_URL must be set.");
         }
-        return new pg.Pool({ connectionString: process.env.DATABASE_URL });
+        const isNeon = process.env.DATABASE_URL.includes('neon.tech');
+        return new pg.Pool({ 
+          connectionString: process.env.DATABASE_URL,
+          ssl: isNeon ? { rejectUnauthorized: false } : false
+        });
       },
     },
     {
