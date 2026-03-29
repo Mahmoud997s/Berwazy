@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'Outfit', sans-serif;
+    --font-display: 'Outfit', sans-serif;
+    color-scheme: light;
+
+    --background: 60 9% 98%; /* #fafaf9 */
+    --foreground: 48 8% 12%; /* #21201c */
+    
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 48 8% 12%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 48 8% 12%;
+    
+    --primary: 25 95% 53%; /* #f97316 (Orange 500) */
+    --primary-foreground: 60 9% 98%;
+    
+    --secondary: 40 5% 91%; /* #e9e8e6 */
+    --secondary-foreground: 48 8% 12%;
+    
+    --muted: 40 5% 91%;
+    --muted-foreground: 48 4% 45%;
+    
+    --accent: 25 95% 53% / 0.1;
+    --accent-foreground: 25 95% 53%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 40 5% 91%;
+    --input: 40 5% 91%;
+    --ring: 25 95% 53%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --background: 60 2% 10%; /* #191918 */
+    --foreground: 38 22% 92%; /* #eeebe6 */
+    
+    --card: 60 1% 13%; /* #222221 */
+    --card-foreground: 38 22% 92%;
+    
+    --popover: 60 2% 10%;
+    --popover-foreground: 38 22% 92%;
+    
+    --primary: 25 95% 53%;
+    --primary-foreground: 60 2% 10%;
+    
+    --secondary: 60 1% 20%; /* #333332 */
+    --secondary-foreground: 38 22% 92%;
+    
+    --muted: 60 1% 20%;
+    --muted-foreground: 38 10% 65%;
+    
+    --accent: 25 95% 53% / 0.15;
+    --accent-foreground: 25 95% 53%;
+    
+    --border: 60 1% 20%;
+    --input: 60 1% 20%;
+    --ring: 25 95% 53%;
+    --accent-teal: 177 100% 38%; /* #00c0b5 */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tighter uppercase italic font-black;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply relative text-[13px] font-bold uppercase tracking-widest transition-colors hover:text-primary;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1.5 left-0 h-[2px] w-full bg-primary
+           origin-left scale-x-0 transition-transform duration-300 ease-out;
+  }
+  .nav-link:hover::after {
+    @apply scale-x-100;
+  }
+  .nav-link-active {
+    @apply text-primary;
+  }
+  .nav-link-active::after {
+    @apply scale-x-100;
+  }
+  
+  .logo-text {
+    @apply text-xl md:text-2xl font-black tracking-tighter uppercase italic;
+  }
+}
+
+/* Custom Utilities for Premium Vibe */
+.glass-nav {
+  @apply bg-background/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-40 transition-all duration-300;
+}
+
+.hover-lift {
+  @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 dark:hover:shadow-white/5;
+}
+
+.btn-premium {
+  @apply relative overflow-hidden inline-flex items-center justify-center font-bold uppercase tracking-widest
+         bg-primary text-primary-foreground transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none
+         hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 h-14 px-10 rounded-none;
+}
+
+/* Custom Scrollbar for Drawer */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.6);
+}
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(.25,.46,.45,.94) both infinite;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Hero tab glow */
+.hero-tab-glow {
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.35),
+              0 0 40px hsl(var(--primary) / 0.15);
+}

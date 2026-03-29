@@ -1,0 +1,14 @@
+node_modules
+.next
+dist
+.git
+.env
+Dockerfile*
+docker-compose*
+npm-debug.log
+README.md
+task.md
+implementation_plan.md
+walkthrough.md
+architecture_reference.md
+uploads

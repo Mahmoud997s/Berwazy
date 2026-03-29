@@ -52,6 +52,23 @@ export const api = {
         }),
         404: errorSchemas.notFound,
       },
+    },
+    list: {
+      method: 'GET' as const,
+      path: '/api/v1/products' as const,
+      input: z.object({
+        search: z.string().optional(),
+        sort: z.string().optional(),
+        cursor: z.string().optional(),
+        limit: z.coerce.number().optional(),
+      }).optional(),
+      responses: {
+        200: z.object({
+          items: z.array(z.any()), // ProductCard[]
+          nextCursor: z.string().nullable(),
+          total: z.number(),
+        }),
+      },
     }
   },
   cart: {
@@ -93,6 +110,46 @@ export const api = {
         404: errorSchemas.notFound,
       },
     }
+  },
+  auth: {
+    register: {
+      method: 'POST' as const,
+      path: '/api/v1/auth/register' as const,
+      input: z.object({
+        email: z.string().email(),
+        password: z.string().min(6),
+        name: z.string().min(2),
+      }),
+    },
+    login: {
+      method: 'POST' as const,
+      path: '/api/v1/auth/login' as const,
+      input: z.object({
+        email: z.string().email(),
+        password: z.string(),
+      }),
+    },
+    logout: {
+      method: 'GET' as const,
+      path: '/api/v1/auth/logout' as const,
+    },
+    me: {
+      method: 'GET' as const,
+      path: '/api/v1/auth/me' as const,
+    },
+    google: {
+      method: 'GET' as const,
+      path: '/api/v1/auth/google' as const,
+    },
+    updateProfile: {
+      method: 'POST' as const,
+      path: '/api/v1/auth/profile' as const,
+    },
+    updatePassword: {
+      method: 'POST' as const,
+      path: '/api/v1/auth/password' as const,
+    },
+    uploadAvatar: { path: "/api/v1/auth/avatar", method: "POST" as const },
   }
 };
 
