@@ -31,7 +31,7 @@ import { OrdersModule } from './orders/orders.module';
     OrdersModule,
     BlogModule,
     ServeStaticModule.forRoot({
-      rootPath: join(process.cwd(), 'uploads'),
+      rootPath: join(process.cwd(), 'public', 'uploads'),
       serveRoot: '/uploads',
     }),
   ],

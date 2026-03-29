@@ -10,10 +10,6 @@ const nextConfig = {
       {
         source: '/api/:path*',
         destination: isVercel ? '/api/:path*' : `${backendUrl}/api/:path*`
-      },
-      {
-        source: '/uploads/:path*',
-        destination: isVercel ? '/uploads/:path*' : `${backendUrl}/uploads/:path*`
       }
     ]
   }

@@ -8,7 +8,7 @@ import { existsSync, mkdirSync, writeFileSync, unlinkSync } from 'fs';
 
 @Injectable()
 export class MediaService {
-  private readonly uploadDir = join(process.cwd(), 'uploads');
+  private readonly uploadDir = join(process.cwd(), 'public', 'uploads');
 
   constructor() {
     if (!existsSync(this.uploadDir)) {
