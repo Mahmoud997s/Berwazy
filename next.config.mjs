@@ -9,7 +9,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: isVercel ? '/api/:path*' : `${backendUrl}/api/:path*`
+        destination: isVercel ? '/api/v1/:path*' : `${backendUrl}/api/v1/:path*`
       }
     ]
   }
