@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Providers } from '@/components/providers';
 import { MainLayout } from '@/components/layout/main-layout';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css';
 
 import { db } from '@/lib/db';
@@ -191,6 +192,7 @@ export default async function RootLayout({
         {settings.footer_script && (
           <script dangerouslySetInnerHTML={{ __html: settings.footer_script }} />
         )}
+        <SpeedInsights />
       </body>
     </html>
   );
